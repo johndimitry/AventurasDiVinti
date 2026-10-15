@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101012">
+<meta name="description" content="Aventuras de DiVinti — jogo independente criado por John Dimitry, DiVinti Tech.">
+<title>Aventuras de DiVinti | John Dimitry</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="site-wrap">
+<header class="site-header">
+  <div class="brand-mark">DV<span>+</span></div>
+  <div class="brand-copy"><p class="kicker">JOGO INDEPENDENTE</p><h1>Aventuras de <em>DiVinti</em></h1><p class="byline">Criado por <strong>John Dimitry</strong> · DiVinti Tech</p></div>
+  <div class="header-wallet"><span>🪙 SALDO</span><strong id="headerCoins">0</strong></div>
+</header>
+<nav class="nav-tabs" aria-label="Navegação principal">
+<button class="nav-tab selected" data-screen="gameScreen">🎮 Jogar</button>
+<button class="nav-tab" data-screen="missionsScreen">🎯 Missões</button>
+<button class="nav-tab" data-screen="shopScreen">🛍️ Loja</button>
+<button class="nav-tab" data-screen="achievementsScreen">🏆 Conquistas</button>
+<button class="nav-tab" data-screen="guideScreen">❔ Guia</button>
+</nav>
+
+<main>
+<section class="screen selected" id="gameScreen">
+  <div class="game-heading"><div><p class="kicker">DESAFIO INFINITO</p><h2>Quanto tempo você <em>aguenta?</em></h2></div><div class="best-badge">RECORDE <b id="bestScore">0</b></div></div>
+  <div class="game-frame">
+    <div class="hud">
+      <div class="hud-item lives">❤️ <b id="lives">3</b></div><div class="hud-item">🪙 <b id="runCoins">0</b></div><div class="hud-item">⭐ <b id="score">0</b></div><div class="hud-item">🛡️ <b id="shieldStatus">OFF</b></div>
+    </div>
+    <canvas id="game" width="960" height="520" aria-label="Aventuras de DiVinti, jogo de corrida"></canvas>
+    <div class="game-overlay" id="menuOverlay"><div class="overlay-box"><p class="kicker">PULE · DESLIZE · COLETE</p><h2>A aventura <em>começa aqui.</em></h2><p>Desvie dos obstáculos, junte moedas, complete missões e desbloqueie novos visuais.</p><button class="btn primary" id="playBtn">COMEÇAR A CORRIDA</button><small>Espaço/↑ pular · ↓ deslizar · P pausar</small></div></div>
+    <div class="game-overlay hidden" id="pauseOverlay"><div class="overlay-box"><p class="kicker">PAUSA</p><h2>Hora de respirar.</h2><button class="btn primary" id="continueBtn">CONTINUAR</button><button class="btn ghost" id="restartPauseBtn">RECOMEÇAR CORRIDA</button></div></div>
+    <div class="game-overlay hidden" id="resultOverlay"><div class="overlay-box"><p class="kicker">CORRIDA ENCERRADA</p><h2 id="resultTitle">Boa tentativa!</h2><p id="resultText">Você chegou longe.</p><button class="btn primary" id="againBtn">JOGAR DE NOVO</button><button class="btn ghost" id="resultShopBtn">GASTAR MOEDAS NA LOJA</button></div></div>
+    <div class="mobile-controls"><button id="mobileSlide">↓ DESLIZAR</button><button id="mobileJump">↑ PULAR</button></div>
+  </div>
+  <div class="under-game"><div class="stat-tile"><span>PERSONAGEM EQUIPADO</span><b id="equippedName">DiVinti</b></div><div class="stat-tile"><span>DISTÂNCIA TOTAL</span><b id="distanceTotal">0 m</b></div><div class="stat-tile"><span>PRÓXIMO OBJETIVO</span><b id="nextGoal">500 metros</b></div></div>
+  <div class="tip-line">💡 <strong>Dica:</strong> pule as caixas e espinhos; deslize para passar por baixo das barreiras vermelhas.</div>
+</section>
+
+<section class="screen" id="missionsScreen">
+  <div class="section-title"><p class="kicker">JOGUE COM UM OBJETIVO</p><h2>Missões <em>e recompensas</em></h2><p>Complete desafios durante suas corridas para ganhar moedas extras. O progresso fica salvo neste navegador.</p></div>
+  <div id="missionsList" class="cards-grid"></div>
+</section>
+
+<section class="screen" id="shopScreen">
+  <div class="section-title shop-title"><div><p class="kicker">MOEDAS TÊM UTILIDADE</p><h2>Loja de <em>personagens</em></h2><p>Use as moedas que você coletou para desbloquear visuais e equipar seu favorito.</p></div><div class="coin-total">🪙 <b id="shopCoins">0</b></div></div>
+  <div class="shop-rules"><b>Como ganhar moedas?</b> Pegue as moedas douradas durante a corrida. Ao terminar, elas vão para o seu banco. Você também recebe bônus por missões concluídas.</div>
+  <div id="characterShop" class="character-grid"></div>
+  <div class="powerup-card"><div class="powerup-icon">🛡️</div><div class="powerup-copy"><h3>Escudo para a próxima corrida</h3><p>Bloqueia uma colisão. É consumido quando você começa uma corrida.</p><small>Você tem <b id="shieldInventory">0</b> escudo(s) guardado(s).</small></div><button class="btn primary buy-shield" id="buyShield">COMPRAR · 80 🪙</button></div>
+</section>
+
+<section class="screen" id="achievementsScreen">
+  <div class="section-title"><p class="kicker">SEU PROGRESSO</p><h2>Galeria de <em>conquistas</em></h2><p>Marcos desbloqueados ao jogar. Continue evoluindo para completar sua coleção.</p></div>
+  <div id="achievementList" class="cards-grid"></div>
+</section>
+
+<section class="screen" id="guideScreen">
+  <div class="section-title"><p class="kicker">MANUAL DO JOGADOR</p><h2>Aprenda os <em>comandos</em></h2><p>Fácil de começar, difícil de largar. Tente bater seu recorde!</p></div>
+  <div class="guide-grid">
+    <article class="guide-card"><div class="guide-icon">⌨️</div><h3>Comandos do computador</h3><ul><li><kbd>Espaço</kbd> ou <kbd>↑</kbd> — pular</li><li><kbd>↓</kbd> — deslizar</li><li><kbd>P</kbd> ou <kbd>Esc</kbd> — pausar/continuar</li><li><kbd>Enter</kbd> — começar ou jogar novamente</li><li><kbd>M</kbd> — ativar/desativar som</li></ul></article>
+    <article class="guide-card"><div class="guide-icon">📱</div><h3>Comandos no celular</h3><ul><li>Toque no lado esquerdo do jogo para pular.</li><li>Use o botão DESLIZAR para passar sob barreiras.</li><li>O jogo se adapta à largura da tela.</li></ul></article>
+    <article class="guide-card"><div class="guide-icon">🪙</div><h3>Para que servem as moedas?</h3><ul><li>Comprar novos personagens na loja.</li><li>Comprar escudo por 80 moedas.</li><li>Ganhar recompensas ao completar missões.</li><li>Personagens são visuais e não dão vantagem competitiva.</li></ul></article>
+    <article class="guide-card"><div class="guide-icon">⚠️</div><h3>Obstáculos e poderes</h3><ul><li>Caixas e espinhos: pule por cima.</li><li>Barreiras altas: deslize por baixo.</li><li>Escudo verde: protege de uma colisão.</li><li>A velocidade aumenta conforme você avança.</li></ul></article>
+  </div>
+</section>
+
+<section class="creator-panel">
+  <div class="creator-copy"><p class="kicker">UM PROJETO INDEPENDENTE</p><h2>Feito por <em>John Dimitry</em></h2><p>Acompanhe meus projetos, programação e novidades da DiVinti Tech.</p><a class="instagram-link" href="https://www.instagram.com/divintitech/" target="_blank" rel="noopener noreferrer">📸 @divintitech <span>ABRIR INSTAGRAM ↗</span></a></div>
+  <div class="creator-actions"><button class="btn primary" id="pixOpen">💝 APOIAR VIA PIX</button><p>Gostou do jogo? Seu apoio voluntário ajuda a desenvolver novas atualizações.</p></div>
+</section>
+<footer><div><strong>AVENTURAS DE DIVINTI</strong><p>© <span id="year"></span> John Dimitry. Todos os direitos reservados.</p></div><div class="footer-links"><a href="https://www.instagram.com/divintitech/" target="_blank" rel="noopener noreferrer">Instagram</a><button id="footerPix">Apoiar o criador</button></div><p class="legal">Projeto independente. Não copie, redistribua ou publique versões modificadas como se fossem oficiais sem autorização do autor.</p></footer>
+</main>
+</div>
+
+<dialog id="pixDialog"><form method="dialog" class="pix-dialog"><button class="x-close" aria-label="Fechar">×</button><p class="kicker">APOIO VOLUNTÁRIO</p><h2>Ajude a aventura a <em>continuar</em></h2><p>Se quiser apoiar o desenvolvimento, copie a chave abaixo e abra o aplicativo do seu banco. Sempre confira o nome do destinatário antes de confirmar.</p><div class="pix-box"><span>CHAVE PIX · CELULAR</span><strong id="pixKeyDisplay">+55 11 98392-8987</strong><button type="button" class="btn primary" id="copyPix">COPIAR CHAVE PIX</button><small id="pixFeedback" aria-live="polite"></small></div><p class="privacy-note">A chave é um número de celular fornecido pelo criador. Se não quiser expor seu telefone publicamente, substitua por uma chave aleatória Pix antes de publicar.</p><button class="btn ghost close-dialog">FECHAR</button></form></dialog>
+<script src="game.js"></script>
+</body>
+</html>
